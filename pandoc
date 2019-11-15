@@ -11,7 +11,7 @@ if [[ "${1:-}" == "--help" ]] ; then
 	echo "--interactive      put to get into a root bash of the container"
 fi
 
-image="pandoc-latex:latest"
+image="pandoc-mermaid:latest"
 prefix=()
 opts=()
 opts+=(--tty)

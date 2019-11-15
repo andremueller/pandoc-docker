@@ -18,11 +18,11 @@ version="${version#v}"
 containers=()
 containers+=(pandoc-core)
 containers+=(pandoc-latex)
+containers+=(pandoc-mermaid)
 
 for container in "${containers[@]}" ; do
 	if [[ "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
 		echo "Building docker container $container:$version"
-		sleep 5
 		opts=()
 		opts+=(--tag "$container":latest)
 		opts+=(--tag "$container":"$version")
