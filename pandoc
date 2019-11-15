@@ -1,14 +1,30 @@
 #!/bin/bash
 set -e
-image="haskell:8.6.5"
-image="andremueller/pandoc:latest"
+interactive="n"
+
+if [[ "${1:-}" == "--interactive" ]] ; then
+	interactive="y"
+	shift
+fi
+
+if [[ "${1:-}" == "--help" ]] ; then
+	echo "--interactive      put to get into a root bash of the container"
+fi
+
+image="pandoc-latex:latest"
 prefix=()
 opts=()
 opts+=(--tty)
 opts+=(--interactive)
 opts+=(--rm)
-#opts+=(--user "$(id -u)":"$(id -g)")
-opts+=(--user root:root)
+if [[ "$interactive" == "y" ]] ; then
+	opts+=(--user root:root)
+	opts+=(--entrypoint "sh")
+else
+	# set user within the container
+#	opts+=(--user "$(id -u)":"$(id -g)")
+	echo ""
+fi
 
 if [[ "$(uname -o)" == "Msys" ]] ; then
     declare -x MSYS_NO_PATHCONV=1
@@ -17,10 +33,9 @@ if [[ "$(uname -o)" == "Msys" ]] ; then
 else
     opts+=(--volume "${PWD}":/data)
 fi
-opts+=(--entrypoint "sh")
 
+# propagate proxy settings (for experimenting in the container)
 [[ -n "${http_proxy:-}" ]] && opts+=(--env http_proxy=$http_proxy)
 [[ -n "${https_proxy:-}" ]] && opts+=(--env https_proxy=$https_proxy)
-
 
 "${prefix[@]}" docker run "${opts[@]}" ${image} "${@}"
