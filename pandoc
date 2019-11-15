@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+image="haskell:8.6.5"
+image="andremueller/pandoc:latest"
+prefix=()
+opts=()
+opts+=(--tty)
+opts+=(--interactive)
+opts+=(--rm)
+#opts+=(--user "$(id -u)":"$(id -g)")
+opts+=(--user root:root)
+
+if [[ "$(uname -o)" == "Msys" ]] ; then
+    declare -x MSYS_NO_PATHCONV=1
+    prefix+=(winpty)
+    opts+=(--volume "/$(pwd -W)":/data)
+else
+    opts+=(--volume "${PWD}":/data)
+fi
+opts+=(--entrypoint "sh")
+
+[[ -n "${http_proxy:-}" ]] && opts+=(--env http_proxy=$http_proxy)
+[[ -n "${https_proxy:-}" ]] && opts+=(--env https_proxy=$https_proxy)
+
+
+"${prefix[@]}" docker run "${opts[@]}" ${image} "${@}"
