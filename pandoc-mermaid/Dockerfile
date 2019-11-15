@@ -17,7 +17,7 @@ RUN apt-get autoremove --yes
 RUN apt-get clean
 
 # install npm packages
-RUN npm install --proxy $http_proxy --global mermaid-filter
+RUN npm --loglevel info --proxy $http_proxy install --global --unsafe-perm=true mermaid-filter
 
 WORKDIR /data
 
