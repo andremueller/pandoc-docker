@@ -1,8 +1,10 @@
-FROM andremueller/pandoc-core:${VERSION}
+ARG VERSION=latest
+
+FROM pandoc-core:$VERSION
 
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"
 LABEL description="Pandoc + latex core docker image"
-LABEL version="${VERSION}"
+LABEL version="$VERSION"
 
 RUN bash -c echo "Proxy settings: http_proxy=$http_proxy https_proxy=$https_proxy"
 

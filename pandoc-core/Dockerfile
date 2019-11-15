@@ -1,8 +1,10 @@
+ARG VERSION
+
 FROM haskell:8.6.5
 
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"
 LABEL description="Pandoc core image"
-LABEL version="${VERSION}"
+LABEL version="$VERSION"
 
 RUN bash -c echo "Proxy settings: http_proxy=$http_proxy https_proxy=$https_proxy"
 

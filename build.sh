@@ -20,17 +20,20 @@ containers+=(pandoc-core)
 containers+=(pandoc-latex)
 
 for container in "${containers[@]}" ; do
-	echo "Building docker container $container:$version"
-	opts=()
-	opts+=(--tag "$container":latest)
-	opts+=(--tag "$container":"$version")
-	opts+=(--build-arg VERSION="$version")
+	if [[ "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
+		echo "Building docker container $container:$version"
+		sleep 5
+		opts=()
+		opts+=(--tag "$container":latest)
+		opts+=(--tag "$container":"$version")
+		opts+=(--build-arg VERSION="$version")
 
-	# forward proxy settings if present
-	[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg http_proxy=$http_proxy)
-	[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
+		# forward proxy settings if present
+		[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg http_proxy=$http_proxy)
+		[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
 
-	docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
+		docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
+	fi
 done
 
 ## Remove dangling images
