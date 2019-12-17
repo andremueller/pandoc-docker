@@ -4,7 +4,8 @@ FROM alpine:latest
 
 RUN apk add --virtual .build --no-cache wget ghc cabal build-base
 RUN cabal new-update --verbose
-RUN cabal install --verbose pandoc
+RUN cabal new-install Cabal cabal-install 
+RUN cabal new-install --verbose pandoc
 
 WORKDIR /data
 
