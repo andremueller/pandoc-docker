@@ -1,19 +1,18 @@
 ARG VERSION
 
-FROM haskell:8.6.5
+FROM alpine:latest
+
+RUN apk add --virtual .build --no-cache wget ghc cabal build-base
+RUN cabal new-update --verbose
+RUN cabal install --verbose pandoc
+
+WORKDIR /data
 
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"
 LABEL description="Pandoc core image"
 LABEL version="$VERSION"
 
-RUN bash -c echo "Proxy settings: http_proxy=$http_proxy https_proxy=$https_proxy"
-
-# install pandoc
-RUN cabal update --verbose
-RUN cabal new-install --verbose pandoc
-
-WORKDIR /data
-
 ENTRYPOINT ["/root/.cabal/bin/pandoc"]
 
 CMD ["--help"]
+

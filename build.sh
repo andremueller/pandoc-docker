@@ -20,8 +20,10 @@ containers+=(pandoc-core)
 containers+=(pandoc-latex)
 containers+=(pandoc-mermaid)
 
+NO_CACHE="${NO_CACHE:-}"
+
 for container in "${containers[@]}" ; do
-	if [[ "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
+	if [[ "$NO_CACHE" == "yes" || "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
 		echo "Building docker container $container:$version"
 		opts=()
 		opts+=(--tag "$container":latest)
