@@ -2,9 +2,9 @@ ARG VERSION
 
 FROM alpine:latest
 
-RUN apk add --virtual .build --no-cache wget ghc cabal build-base
+RUN apk add --virtual .build --no-cache wget ghc cabal build-base zlib-dev
 RUN cabal new-update --verbose
-RUN cabal new-install Cabal cabal-install 
+# RUN cabal new-install Cabal cabal-install
 RUN cabal new-install --verbose pandoc
 
 WORKDIR /data
