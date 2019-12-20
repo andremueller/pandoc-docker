@@ -38,6 +38,3 @@ for container in "${containers[@]}" ; do
 	fi
 done
 
-## Remove dangling images
-#echo "Cleaning dangling images"
-#docker image prune -f
