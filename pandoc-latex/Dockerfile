@@ -1,6 +1,4 @@
-ARG VERSION=latest
-
-FROM pandoc-core:$VERSION
+FROM pandoc-core:latest
 
 RUN apk add --no-cache texlive-xetex
 
