@@ -2,7 +2,8 @@ ARG VERSION=latest
 
 FROM pandoc-latex:$VERSION
 
-RUN apk add --no-cache nodejs-current npm
+RUN apk add --no-cache nodejs npm chromium nss freetype freetype-dev harfbuzz \
+	ca-certificates ttf-freefont
 RUN npm install --loglevel info --global --unsafe-perm=true mermaid-filter
 
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"

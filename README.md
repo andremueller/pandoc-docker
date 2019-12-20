@@ -32,3 +32,8 @@ graph TD
 	pandoc-latex --> pandoc-mermaid
 ```
 
+# Help
+
+Mermaid is not that simple installed on Alpine:
+see https://github.com/puppeteer/puppeteer/blob/master/docs/troubleshooting.md#running-on-alpine
+

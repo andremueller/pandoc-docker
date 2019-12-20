@@ -23,18 +23,13 @@ containers+=(pandoc-mermaid)
 NO_CACHE="${NO_CACHE:-}"
 
 for container in "${containers[@]}" ; do
-	if [[ "$NO_CACHE" == "yes" || "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
-		echo "Building docker container $container:$version"
-		opts=()
-		opts+=(--tag "$container":latest)
-		opts+=(--tag "$container":"$version")
-		opts+=(--build-arg VERSION="$version")
-
-		# forward proxy settings if present
-		[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg http_proxy=$http_proxy)
-		[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
-
-		docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
-	fi
+	opts=()
+	opts+=(--tag "$container":latest)
+	opts+=(--tag "$container":"$version")
+	opts+=(--build-arg VERSION="$version")
+	# forward proxy settings if present
+	[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg http_proxy=$http_proxy)
+	[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
+	docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
 done
 
