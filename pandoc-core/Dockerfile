@@ -6,6 +6,7 @@ ARG PANDOC_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION
 RUN apk add --virtual .build --no-cache curl
 WORKDIR /tmp
 RUN curl -L "${PANDOC_URL}" | tar xvz && cp /tmp/pandoc-${PANDOC_VERSION}/bin/* /usr/local/bin && rm -rf /tmp/*
+RUN curl -L "https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.6.1/linux-pandoc_2_9.tar.gz" | tar xvz && cp /tmp/pandoc-crossref /usr/local/bin && rm -rf /tmp/*
 
 WORKDIR /data
 

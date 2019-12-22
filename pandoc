@@ -1,21 +1,20 @@
 #!/bin/bash
 set -e
 
-image="pandoc-mermaid:latest"
+image="pandoc-latex:latest"
 prefix=()
 opts=()
-opts+=(--tty)
-opts+=(--interactive)
 opts+=(--rm)
 opts+=(--user "$(id -u)":"$(id -g)")
 
-if [[ "$(uname -o)" == "Msys" ]] ; then
+if [[ "$(uname -o 2> /dev/null)" == "Msys" ]] ; then
     declare -x MSYS_NO_PATHCONV=1
     prefix+=(winpty)
     opts+=(--volume "/$(pwd -W)":/data)
 else
     opts+=(--volume "${PWD}":/data)
 fi
+opts+=(--volume "$HOME":"$HOME")
 
 "${prefix[@]}" docker run "${opts[@]}" ${image} "${@}"
 
