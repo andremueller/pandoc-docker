@@ -5,6 +5,7 @@ image="pandoc-latex:latest"
 prefix=()
 opts=()
 opts+=(--rm)
+#opts+=(--entrypoint sh)
 opts+=(--user "$(id -u)":"$(id -g)")
 
 if [[ "$(uname -o 2> /dev/null)" == "Msys" ]] ; then

@@ -16,8 +16,8 @@ version="${version#v}"
 
 ## Build docker image
 containers=()
-containers+=(pandoc-core)
-containers+=(pandoc-latex)
+#containers+=(pandoc-core)
+#containers+=(pandoc-latex)
 containers+=(pandoc-mermaid)
 
 NO_CACHE="${NO_CACHE:-}"

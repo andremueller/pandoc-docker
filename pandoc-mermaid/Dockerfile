@@ -6,8 +6,8 @@ RUN apk add --no-cache nodejs npm chromium nss freetype freetype-dev harfbuzz \
 ENV CHROME_BIN="/usr/bin/chromium-browser" \
 	NODE_ENV="production" \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
-
-RUN npm install --loglevel info --global --unsafe-perm=true mermaid-filter
+RUN apk add --no-cache yarn
+RUN yarn global add mermaid-filter --prefix /usr/local
 
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"
 LABEL description="Pandoc + latex + mermaid docker image"
