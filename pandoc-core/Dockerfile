@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:edge
 
 ARG PANDOC_VERSION="2.9"
 ARG PANDOC_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"

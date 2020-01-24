@@ -6,8 +6,8 @@ SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
 SCRIPT_PATH="$(dirname "$SCRIPT")"
 
 function die() {
-    echo "ERROR $? IN $SCRIPT AT LINE ${BASH_LINENO[0]}"
-    exit 1
+	echo "ERROR $? IN $SCRIPT AT LINE ${BASH_LINENO[0]}"
+	exit 1
 }
 trap die ERR
 

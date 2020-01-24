@@ -1,6 +1,6 @@
 ARG VERSION
 
-FROM alpine:latest
+FROM alpine:edge
 
 RUN apk add --virtual .build --no-cache wget ghc cabal build-base zlib-dev
 RUN cabal new-update --verbose
