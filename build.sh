@@ -18,7 +18,7 @@ version="${version#v}"
 containers=()
 containers+=(pandoc-core)
 containers+=(pandoc-latex)
-containers+=(pandoc-mermaid)
+#containers+=(pandoc-mermaid)
 
 for container in "${containers[@]}" ; do
 	if [[ "$(docker images -q "$container":"$version" 2> /dev/null)" == "" ]] ; then
@@ -29,13 +29,9 @@ for container in "${containers[@]}" ; do
 		opts+=(--build-arg VERSION="$version")
 
 		# forward proxy settings if present
-		[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg http_proxy=$http_proxy)
-		[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
+		[[ -n "${http_proxy:-}" ]] && opts+=(--build-arg "http_proxy=$http_proxy")
+		[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg "https_proxy=$https_proxy")
 
 		docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
 	fi
 done
-
-## Remove dangling images
-#echo "Cleaning dangling images"
-#docker image prune -f

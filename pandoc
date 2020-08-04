@@ -11,7 +11,7 @@ if [[ "${1:-}" == "--help" ]] ; then
 	echo "--interactive      put to get into a root bash of the container"
 fi
 
-image="pandoc-mermaid:latest"
+image="pandoc-latex:latest"
 prefix=()
 opts=()
 opts+=(--tty)
@@ -22,7 +22,7 @@ if [[ "$interactive" == "y" ]] ; then
 	opts+=(--entrypoint "sh")
 else
 	# set user within the container
-#	opts+=(--user "$(id -u)":"$(id -g)")
+	opts+=(--user "$(id -u)":"$(id -g)")
 	echo ""
 fi
 
