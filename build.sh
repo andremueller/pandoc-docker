@@ -16,13 +16,14 @@ version="${version#v}"
 
 ## Build docker image
 containers=()
-#containers+=(pandoc-core)
-#containers+=(pandoc-latex)
-containers+=(pandoc-mermaid)
+containers+=(pandoc-core)
+containers+=(pandoc-latex)
+#containers+=(pandoc-mermaid)
 
 NO_CACHE="${NO_CACHE:-}"
 
 for container in "${containers[@]}" ; do
+	echo "BUILDING $container"
 	opts=()
 	opts+=(--tag "$container":latest)
 	opts+=(--tag "$container":"$version")

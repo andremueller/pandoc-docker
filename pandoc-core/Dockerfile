@@ -1,12 +1,18 @@
-FROM alpine:edge
+FROM alpine:latest
 
-ARG PANDOC_VERSION="2.9"
-ARG PANDOC_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
-
-RUN apk add --virtual .build --no-cache curl
+RUN apk add --upgrade --virtual .build --no-cache curl tar
 WORKDIR /tmp
-RUN curl -L "${PANDOC_URL}" | tar xvz && cp /tmp/pandoc-${PANDOC_VERSION}/bin/* /usr/local/bin && rm -rf /tmp/*
-RUN curl -L "https://github.com/lierdakil/pandoc-crossref/releases/download/v0.3.6.1/linux-pandoc_2_9.tar.gz" | tar xvz && cp /tmp/pandoc-crossref /usr/local/bin && rm -rf /tmp/*
+ARG PANDOC_VERSION="2.10.1"
+ARG PANDOC_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-linux-amd64.tar.gz"
+RUN curl -L "${PANDOC_URL}" | tar xz \
+	&& cp /tmp/pandoc-${PANDOC_VERSION}/bin/* /usr/local/bin \
+	&& rm -rf /tmp/*
+
+ARG PANDOC_CROSSREF="v0.3.8.1"
+ARG PANDOC_CROSSREF_URL="https://github.com/lierdakil/pandoc-crossref/releases/download/${PANDOC_CROSSREF}/pandoc-crossref-Linux.tar.xz"
+RUN curl -L  "${PANDOC_CROSSREF_URL}" | tar -x -J \
+	&& cp /tmp/pandoc-crossref /usr/local/bin \
+	&& rm -rf /tmp/*
 
 WORKDIR /data
 
@@ -18,4 +24,3 @@ LABEL version="$VERSION"
 ENTRYPOINT ["/usr/local/bin/pandoc"]
 
 CMD ["--help"]
-
