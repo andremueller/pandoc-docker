@@ -15,7 +15,13 @@ Then use it with
 Or for developing in the container
 
 ```bash
-./pandoc --interactive
+./pandoc --shell
+```
+
+If you want to be user root in the pandoc container run with
+
+```bash
+./pandoc --shell --root
 ```
 
 

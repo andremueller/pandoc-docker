@@ -6,11 +6,27 @@ image="pandoc-latex:latest"
 prefix=()
 opts=()
 opts+=(--rm)
-#opts+=(--entrypoint sh)
 opts+=(--tty)
 opts+=(--interactive)
-MOUNT_HOME="n"
+MOUNT_HOME="y"
 MOUNT_PWD="y"
+ROOT="n"
+args=()
+while [[ $# -gt 0 ]] ; do
+	case "$1" in
+		--shell)
+			opts+=(--entrypoint sh)
+			;;
+		--root)
+			ROOT="y"
+			;;
+		*)
+			args+=("$1")
+			;;
+	esac
+	shift
+done
+
 
 if [[ "$(uname -o 2> /dev/null)" == "Msys" ]] ; then
 	declare -x MSYS_NO_PATHCONV=1
@@ -19,9 +35,10 @@ if [[ "$(uname -o 2> /dev/null)" == "Msys" ]] ; then
 	WHOME="$(cd "$HOME" && pwd -W)"
 	[[ "$MOUNT_HOME" == "y" ]] && opts+=(--volume "/$WHOME":/home/$USER)
 else
-	opts+=(--user "$(id -u)":"$(id -g)")
+	[[ "$ROOT" == "n" ]] &&	opts+=(--user "$(id -u)":"$(id -g)")
 	[[ "$MOUNT_PWD" == "y" ]] && opts+=(--volume "${PWD}":/data)
 	[[ "$MOUNT_HOME" == "y" ]] && opts+=(--volume "$HOME":/home/$USER)
+	[[ "$MOUNT_HOME" == "y" ]] && opts+=(--volume "$HOME":"$HOME")
 fi
 
-"${prefix[@]}" docker run "${opts[@]}" ${image} "${@}"
+"${prefix[@]}" docker run "${opts[@]}" ${image} "${args[@]}"

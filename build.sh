@@ -18,12 +18,12 @@ version="${version#v}"
 containers=()
 containers+=(pandoc-core)
 containers+=(pandoc-latex)
-#containers+=(pandoc-mermaid)
+containers+=(pandoc-mermaid)
 
 NO_CACHE="${NO_CACHE:-}"
 
 for container in "${containers[@]}" ; do
-	echo "BUILDING $container"
+	echo "======================== BUILDING $container ========================"
 	opts=()
 	opts+=(--tag "$container":latest)
 	opts+=(--tag "$container":"$version")
@@ -33,4 +33,3 @@ for container in "${containers[@]}" ; do
 	[[ -n "${https_proxy:-}" ]] && opts+=(--build-arg https_proxy=$https_proxy)
 	docker build "${opts[@]}" --file "${SCRIPT_PATH}/$container/Dockerfile" "$SCRIPT_PATH"
 done
-
