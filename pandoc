@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-image="pandoc-mermaid:latest"
+image="pandoc-latex:latest"
+
 prefix=()
 opts=()
 opts+=(--rm)
-opts+=(--entrypoint sh)
+#opts+=(--entrypoint sh)
 opts+=(--tty)
 opts+=(--interactive)
-#opts+=(--user "$(id -u)":"$(id -g)")
 MOUNT_HOME="n"
 MOUNT_PWD="y"
 
@@ -19,9 +19,9 @@ if [[ "$(uname -o 2> /dev/null)" == "Msys" ]] ; then
 	WHOME="$(cd "$HOME" && pwd -W)"
 	[[ "$MOUNT_HOME" == "y" ]] && opts+=(--volume "/$WHOME":/home/$USER)
 else
+	opts+=(--user "$(id -u)":"$(id -g)")
 	[[ "$MOUNT_PWD" == "y" ]] && opts+=(--volume "${PWD}":/data)
 	[[ "$MOUNT_HOME" == "y" ]] && opts+=(--volume "$HOME":/home/$USER)
 fi
 
 "${prefix[@]}" docker run "${opts[@]}" ${image} "${@}"
-

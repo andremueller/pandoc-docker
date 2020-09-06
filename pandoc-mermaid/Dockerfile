@@ -32,6 +32,8 @@ USER pptruser
 WORKDIR /app
 RUN yarn add puppeteer@2.0.0 mermaid-filter mermaid.cli --prefix=/app && yarn install --prefix=/app
 COPY pandoc-mermaid/puppeteer-config.json /app
+ENV PATH "/app/node_modules/.bin:$PATH"
+RUN rm -rf /tmp/*
 LABEL maintainer="Andre Mueller <andre@kiwisound.de>"
 LABEL description="Pandoc + latex + mermaid docker image"
 LABEL version="$VERSION"
@@ -40,4 +42,3 @@ WORKDIR /data
 ENTRYPOINT ["/usr/local/bin/pandoc"]
 
 CMD ["--help"]
-
